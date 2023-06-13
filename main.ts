@@ -121,24 +121,6 @@ function game_scene () {
         6cccccccccccccc66666ccccccccccccccccccc6666cccc6644bccccccccccccc8666666666666f66666ffffffff666666666666666666ccccccccccccccccccccccccccccccccccccccccccccccccc8
         6cccccccccccccc66666ccccccccccccccccccc666ccccc6666ccccccccccccccf666666666666ff6666ffffffff6666666666666666666ccccccccccccccc6cccccccccccccccccccccccccccccccc8
         `)
-    mySprite = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . c c c c . . . . 
-        . . . . . . c c d d d d c . . . 
-        . . . . . c c c c c c d c . . . 
-        . . . . c c 4 4 4 4 d c c . . . 
-        . . . c 4 d 4 4 4 4 4 1 c . c c 
-        . . c 4 4 4 1 4 4 4 4 d 1 c 4 c 
-        . c 4 4 4 4 1 4 4 4 4 4 1 c 4 c 
-        f 4 4 4 4 4 1 4 4 4 4 4 1 4 4 f 
-        f 4 4 4 f 4 1 c c 4 4 4 1 f 4 f 
-        f 4 4 4 4 4 1 4 4 f 4 4 d f 4 f 
-        . f 4 4 4 4 1 c 4 f 4 d f f f f 
-        . . f f 4 d 4 4 f f 4 c f c . . 
-        . . . . f f 4 4 4 4 c d b c . . 
-        . . . . . . f f f f d d d c . . 
-        . . . . . . . . . . c c c . . . 
-        `, SpriteKind.Player)
     controller.moveSprite(mySprite, 100, 100)
     mySprite.setPosition(80, 102)
     mySprite.setStayInScreen(true)
@@ -183,5 +165,7 @@ mySprite = sprites.create(img`
     . . . . . . f f f f d d d c . . 
     . . . . . . . . . . c c c . . . 
     `, SpriteKind.Projectile)
-mySprite.sayText("MT" + " Game Studios")
-game_scene()
+mySprite.sayText("MT" + " Game Studios", 2000, false)
+timer.after(2000, function () {
+    game_scene()
+})
