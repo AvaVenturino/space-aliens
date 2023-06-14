@@ -1,5 +1,5 @@
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    projectile = sprites.createProjectileFromSprite(img`
+    explosion = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -16,7 +16,8 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        `, mySprite, 1, -100)
+        `, fish, 1, -100)
+    explosion.setStayInScreen(false)
     music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
 })
 function game_scene () {
@@ -142,9 +143,9 @@ function game_scene () {
         6cccccccccccccc66666ccccccccccccccccccc6666cccc6644bccccccccccccc8666666666666f66666ffffffff666666666666666666ccccccccccccccccccccccccccccccccccccccccccccccccc8
         6cccccccccccccc66666ccccccccccccccccccc666ccccc6666ccccccccccccccf666666666666ff6666ffffffff6666666666666666666ccccccccccccccc6cccccccccccccccccccccccccccccccc8
         `)
-    controller.moveSprite(mySprite, 100, 100)
-    mySprite.setPosition(80, 102)
-    mySprite.setStayInScreen(true)
+    controller.moveSprite(fish, 100, 100)
+    fish.setPosition(80, 102)
+    fish.setStayInScreen(true)
     shark = sprites.create(img`
         ...........fffffff...ccfff..........
         ..........fbbbbbbbffcbbbbf..........
@@ -166,10 +167,10 @@ function game_scene () {
     shark.setPosition(72, 13)
 }
 let shark: Sprite = null
-let projectile: Sprite = null
-let mySprite: Sprite = null
+let explosion: Sprite = null
+let fish: Sprite = null
 scene.setBackgroundColor(9)
-mySprite = sprites.create(img`
+fish = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . c c c c . . . . 
     . . . . . . c c d d d d c . . . 
@@ -187,7 +188,7 @@ mySprite = sprites.create(img`
     . . . . . . f f f f d d d c . . 
     . . . . . . . . . . c c c . . . 
     `, SpriteKind.Projectile)
-mySprite.sayText("MT" + " Game Studios", 2000, false)
+fish.sayText("MT" + " Game Studios", 2000, false)
 timer.after(2000, function () {
     game_scene()
 })
