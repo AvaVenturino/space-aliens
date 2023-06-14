@@ -16,9 +16,10 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        `, fish, 1, -100)
+        `, fish, 100, 1)
     explosion.setStayInScreen(false)
     music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
+    music.setVolume(255)
 })
 function game_scene () {
     scene.setBackgroundImage(img`
@@ -144,8 +145,36 @@ function game_scene () {
         6cccccccccccccc66666ccccccccccccccccccc666ccccc6666ccccccccccccccf666666666666ff6666ffffffff6666666666666666666ccccccccccccccc6cccccccccccccccccccccccccccccccc8
         `)
     controller.moveSprite(fish, 100, 100)
-    fish.setPosition(80, 102)
+    fish.setPosition(19, 60)
     fish.setStayInScreen(true)
+}
+let shark: Sprite = null
+let explosion: Sprite = null
+let fish: Sprite = null
+scene.setBackgroundColor(9)
+fish = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . c c c c . . . . . . . . 
+    . . . c d d d d c c . . . . . . 
+    . . . c d c c c c c c . . . . . 
+    . . . c c d 4 4 4 4 c c . . . . 
+    c c . c 1 4 4 4 4 4 d 4 c . . . 
+    c 4 c 1 d 4 4 4 4 1 4 4 4 c . . 
+    c 4 c 1 4 4 4 4 4 1 4 4 4 4 c . 
+    f 4 4 1 4 4 4 4 4 1 4 4 4 4 4 f 
+    f 4 f 1 4 4 4 c c 1 4 f 4 4 4 f 
+    f 4 f d 4 4 f 4 4 1 4 4 4 4 4 f 
+    f f f f d 4 f 4 c 1 4 4 4 4 f . 
+    . . c f c 4 f f 4 4 d 4 f f . . 
+    . . c b d c 4 4 4 4 f f . . . . 
+    . . c d d d f f f f . . . . . . 
+    . . . c c c . . . . . . . . . . 
+    `, SpriteKind.Projectile)
+fish.sayText("MT" + " Game Studios", 2000, false)
+timer.after(2000, function () {
+    game_scene()
+})
+game.onUpdateInterval(2000, function () {
     shark = sprites.create(img`
         ...........fffffff...ccfff..........
         ..........fbbbbbbbffcbbbbf..........
@@ -164,31 +193,7 @@ function game_scene () {
         ..............cccfffbdbbfcc.....fbbf
         ....................fffff........fff
         `, SpriteKind.Enemy)
-    shark.setPosition(72, 13)
-}
-let shark: Sprite = null
-let explosion: Sprite = null
-let fish: Sprite = null
-scene.setBackgroundColor(9)
-fish = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . c c c c . . . . 
-    . . . . . . c c d d d d c . . . 
-    . . . . . c c c c c c d c . . . 
-    . . . . c c 4 4 4 4 d c c . . . 
-    . . . c 4 d 4 4 4 4 4 1 c . c c 
-    . . c 4 4 4 1 4 4 4 4 d 1 c 4 c 
-    . c 4 4 4 4 1 4 4 4 4 4 1 c 4 c 
-    f 4 4 4 4 4 1 4 4 4 4 4 1 4 4 f 
-    f 4 4 4 f 4 1 c c 4 4 4 1 f 4 f 
-    f 4 4 4 4 4 1 4 4 f 4 4 d f 4 f 
-    . f 4 4 4 4 1 c 4 f 4 d f f f f 
-    . . f f 4 d 4 4 f f 4 c f c . . 
-    . . . . f f 4 4 4 4 c d b c . . 
-    . . . . . . f f f f d d d c . . 
-    . . . . . . . . . . c c c . . . 
-    `, SpriteKind.Projectile)
-fish.sayText("MT" + " Game Studios", 2000, false)
-timer.after(2000, function () {
-    game_scene()
+    shark.x = scene.screenWidth()
+    shark.vx = -20
+    shark.y = randint(10, scene.screenHeight() - 10)
 })
