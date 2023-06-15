@@ -1,5 +1,5 @@
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    explosion = sprites.createProjectileFromSprite(img`
+    projectile = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -17,11 +17,15 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, fish, 100, 1)
-    explosion.setStayInScreen(false)
     music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
     music.setVolume(255)
 })
+sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, otherSprite) {
+    sprites.destroy(sprite)
+    info.changeScoreBy(1)
+})
 function game_scene () {
+    info.setScore(0)
     scene.setBackgroundImage(img`
         8fffffffffffffffffffffffff88fffff88ffff8998889999999989988888989999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
         ffffffffffffffffffffffffff8fffff88ff9f88889889999999989998888898999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -148,8 +152,11 @@ function game_scene () {
     fish.setPosition(19, 60)
     fish.setStayInScreen(true)
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    game.gameOver(false)
+})
 let shark: Sprite = null
-let explosion: Sprite = null
+let projectile: Sprite = null
 let fish: Sprite = null
 scene.setBackgroundColor(9)
 fish = sprites.create(img`
@@ -169,31 +176,33 @@ fish = sprites.create(img`
     . . c b d c 4 4 4 4 f f . . . . 
     . . c d d d f f f f . . . . . . 
     . . . c c c . . . . . . . . . . 
-    `, SpriteKind.Projectile)
-fish.sayText("MT" + " Game Studios", 2000, false)
-timer.after(2000, function () {
+    `, SpriteKind.Player)
+fish.sayText("MT" + " Game Studios", 5000, false)
+timer.after(5000, function () {
     game_scene()
 })
 game.onUpdateInterval(2000, function () {
-    shark = sprites.create(img`
-        ...........fffffff...ccfff..........
-        ..........fbbbbbbbffcbbbbf..........
-        ..........fbb111bbbbbffbf...........
-        ..........fb11111ffbbbbff...........
-        ..........f1cccc1ffbbbbbcff.........
-        ..........ffc1c1c1bbcbcbcccf........
-        ...........fcc3331bbbcbcbcccf..ccccc
-        ............c333c1bbbcbcbccccfcddbbc
-        ............c333c1bbbbbbbcccccddbcc.
-        ............c333c11bbbbbccccccbbcc..
-        ...........cc331c11bbbbccccccfbccf..
-        ...........cc13c11cbbbcccccbbcfccf..
-        ...........c111111cbbbfdddddc.fbbcf.
-        ............cc1111fbdbbfdddc...fbbf.
-        ..............cccfffbdbbfcc.....fbbf
-        ....................fffff........fff
-        `, SpriteKind.Enemy)
-    shark.x = scene.screenWidth()
-    shark.vx = -20
-    shark.y = randint(10, scene.screenHeight() - 10)
+    timer.after(5500, function () {
+        shark = sprites.create(img`
+            ...........fffffff...ccfff..........
+            ..........fbbbbbbbffcbbbbf..........
+            ..........fbb111bbbbbffbf...........
+            ..........fb11111ffbbbbff...........
+            ..........f1cccc1ffbbbbbcff.........
+            ..........ffc1c1c1bbcbcbcccf........
+            ...........fcc3331bbbcbcbcccf..ccccc
+            ............c333c1bbbcbcbccccfcddbbc
+            ............c333c1bbbbbbbcccccddbcc.
+            ............c333c11bbbbbccccccbbcc..
+            ...........cc331c11bbbbccccccfbccf..
+            ...........cc13c11cbbbcccccbbcfccf..
+            ...........c111111cbbbfdddddc.fbbcf.
+            ............cc1111fbdbbfdddc...fbbf.
+            ..............cccfffbdbbfcc.....fbbf
+            ....................fffff........fff
+            `, SpriteKind.Enemy)
+        shark.x = scene.screenWidth()
+        shark.vx = -20
+        shark.y = randint(10, scene.screenHeight() - 10)
+    })
 })
