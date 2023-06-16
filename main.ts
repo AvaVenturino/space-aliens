@@ -181,7 +181,7 @@ fish.sayText("MT" + " Game Studios", 5000, false)
 timer.after(5000, function () {
     game_scene()
 })
-game.onUpdateInterval(2000, function () {
+game.onUpdateInterval(1000, function () {
     timer.after(5500, function () {
         shark = sprites.create(img`
             ...........fffffff...ccfff..........
