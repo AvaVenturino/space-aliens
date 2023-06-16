@@ -151,6 +151,7 @@ function game_scene () {
     controller.moveSprite(fish, 100, 100)
     fish.setPosition(19, 60)
     fish.setStayInScreen(true)
+    info.setLife(1)
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     game.gameOver(false)
@@ -181,7 +182,7 @@ fish.sayText("MT" + " Game Studios", 5000, false)
 timer.after(5000, function () {
     game_scene()
 })
-game.onUpdateInterval(1000, function () {
+game.onUpdateInterval(800, function () {
     timer.after(5500, function () {
         shark = sprites.create(img`
             ...........fffffff...ccfff..........
